@@ -1,13 +1,13 @@
 use strict; use warnings;
 use File::Spec;
-use Curses;
+use SDL;
 
 my %words = ("coin" => {"singular" => "coin", "plural" => "coins"},);
 my $gamelog = "gamelog.txt";
 my $log = "log.txt";
 my %print_chars = ("floor" => ".",
-		"wall"  => "|",
-		"door"  => "+",);
+		   "wall"  => "|",
+		   "door"  => "+",);
 my @messages;
 use constant {
 	GL => "GAMELOG: ",
@@ -17,17 +17,10 @@ use constant {
 };
 
 
-
-my @level = make_level(3,3);
-print_level(\@level);
-
-
-
-foreach my $i (-2 .. 2){
-	game_print &gains($i, "coin");
+sub main {
+	my @level = make_level(3,3);
+	game_print("Gamelog: ".File::Spec->rel2abs($gamelog));
 }
-
-game_print("Gamelog: ".File::Spec->rel2abs($gamelog));
 
 sub plurize {
 	return $words{pop @_}->{abs pop @_!=1?"plural":"singular"};
@@ -74,3 +67,4 @@ sub print_level {
 		print "\n";
 	}
 }
+&main();
